@@ -1,5 +1,3 @@
-import urllib.request as urlreq
-
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
@@ -47,12 +45,12 @@ class Download(QWidget):
         # LINK LABEL AND GET VIDEO BUTTON
         hbox = QHBoxLayout()
 
-        link_label = QLabel(self)
-        link_label.setText("Link :")
-        hbox.addWidget(link_label)
-        line = QLineEdit(self)
+        self.link_label = QLabel()
+        self.link_label.setText("Link :")
+        hbox.addWidget(self.link_label)
+        self.line = QLineEdit()
 
-        hbox.addWidget(line)
+        hbox.addWidget(self.line)
 
         get_video_button = QPushButton('Get Video', self)
         get_video_button.clicked.connect(self.get_video_button_clicked)
@@ -72,14 +70,7 @@ class Download(QWidget):
         thmbnail_label = QLabel(self)
         # thmbnail_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
-        # start
-        url = 'https://i.ytimg.com/vi/XGGWhOUYObc/hqdefault.jpg?sqp=-oaymwEjCPYBEIoBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLBFhhqfIeCHdWELLCJFV5bKyck_Sg'
-        data = urlreq.urlopen(url).read()
-
-        image = QtGui.QImage()
-        image.loadFromData(data)
-
-        pixmap = QPixmap(image)
+        pixmap = QPixmap('download.png')
         thmbnail_label.setPixmap(pixmap)
 
         thmbnail_hbox.addWidget(thmbnail_label)
@@ -136,11 +127,15 @@ class Download(QWidget):
         self.vbox.addLayout(hbox3)
 
     def get_video_button_clicked(self):
+        self.video_url = self.line.text()
+        if self.video_url == '':
+            print("gaandu hai kya?")
+        else:
+            print(self.video_url)
         self.show_download_options()
-        # sys.exit()
 
     def download_button_clicked(self):
-        sys.exit()
+        pass
 
 
 class Downloaded(QWidget):
