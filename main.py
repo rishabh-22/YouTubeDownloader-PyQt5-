@@ -3,7 +3,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QTabWidget, QVBoxLayout, QLabel, QGroupBox, QGridLayout, \
     QLineEdit, QPushButton, QProgressBar, QComboBox
-
+from pytube import YouTube
 import sys
 
 
@@ -56,12 +56,7 @@ class Download(QWidget):
         get_video_button.clicked.connect(self.get_video_button_clicked)
         hbox.addWidget(get_video_button)
 
-        self.vbox.addLayout(hbox)
-
-        groupbox.setLayout(self.vbox)
-
-    def show_download_options(self):
-
+        # self.yt = YouTube(self.video_url)
         # THUMBNAILS AND DETAILS ALONG WITH CHECKBOX FOR CHOICES
         thmbnail_vbox = QVBoxLayout()
 
@@ -72,8 +67,9 @@ class Download(QWidget):
 
         pixmap = QPixmap('download.png')
         thmbnail_label.setPixmap(pixmap)
-
         thmbnail_hbox.addWidget(thmbnail_label)
+        video_label = QLabel(self)
+        # video_label.setText(self.yt.title)
 
         # Showing the ComboBox for various options
         combo_vbox = QVBoxLayout()
@@ -109,6 +105,7 @@ class Download(QWidget):
         combo_vbox.addLayout(combo_hbox)
         thmbnail_hbox.addLayout(combo_vbox)
         thmbnail_vbox.addLayout(thmbnail_hbox)
+        thmbnail_vbox.addWidget(video_label)
         self.vbox.addLayout(thmbnail_vbox)
 
         # PROGRESS BAR AND DOWNLOAD BUTTON
@@ -126,10 +123,14 @@ class Download(QWidget):
 
         self.vbox.addLayout(hbox3)
 
+        self.vbox.addLayout(hbox)
+
+        groupbox.setLayout(self.vbox)
+
     def get_video_button_clicked(self):
         self.video_url = self.line.text()
         if self.video_url == '':
-            print("gaandu hai kya?")
+            print("no video found")
         else:
             print(self.video_url)
         self.show_download_options()
